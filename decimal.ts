@@ -15,3 +15,9 @@ const total_minutes = time_in_seconds.div(60).floor();
 const remaining_seconds = time_in_seconds.minus(total_minutes.times(60));
 
 console.log(`${total_minutes.toString()}m ${remaining_seconds.toFixed(2)}s`);
+
+const pi = new Decimal(Math.PI);
+const halfPi = pi.div(2);
+const result = Decimal.cos(halfPi);
+
+console.log(result.toString());
