@@ -18,6 +18,7 @@
       "npm:moment-timezone": "npm:moment-timezone@0.5.43",
       "npm:moment@^2.30.1": "npm:moment@2.30.1",
       "npm:mongodb": "npm:mongodb@6.3.0",
+      "npm:plaid": "npm:plaid@27.0.0",
       "npm:supertest": "npm:supertest@7.0.0",
       "npm:ts-functional-pipe": "npm:ts-functional-pipe@3.1.2",
       "npm:vitest": "npm:vitest@1.6.0",
@@ -966,6 +967,12 @@
           "confbox": "confbox@0.1.7",
           "mlly": "mlly@1.7.0",
           "pathe": "pathe@1.1.2"
+        }
+      },
+      "plaid@27.0.0": {
+        "integrity": "sha512-aEwXrKT5DSlJFj0IITaKFGCdaAf8xcvdwqZzIjTqyR//xsCtscC5P9lAExnllaAts7ELqQBJn8JzYnLO5TUMTg==",
+        "dependencies": {
+          "axios": "axios@1.6.7"
         }
       },
       "postcss@8.4.38": {
