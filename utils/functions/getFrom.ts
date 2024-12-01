@@ -19,5 +19,5 @@ if (import.meta.main) {
 	const a = obj["a"];
 	const b = obj["b"];
 	const c = getFrom(obj, str);
-	// const d = obj[str]
+	// const d = obj[str] // this errors
 }

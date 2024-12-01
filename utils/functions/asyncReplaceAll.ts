@@ -38,7 +38,7 @@ if (import.meta.main) {
 
 	const str = "The {{quick}} {{brown}} {{fox}} {{jumps}} {{over}} the {{lazy}} {{dog}}";
 
-	const replaced = await asyncReplaceAll(str, /{{(.*?)}}/, async (match, group) => {
+	const replaced = await asyncReplaceAll(str, /{{(.*?)}}/g, async (match, group) => {
 		await delay(1000);
 
 		if (group.length === 3) return group.toUpperCase().replace(/(\w)/g, "$1.");
