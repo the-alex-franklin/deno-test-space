@@ -3,9 +3,9 @@ import { parseArgs } from "https://deno.land/std@0.207.0/cli/parse_args.ts";
 
 const flags = parseArgs(Deno.args, {
 	boolean: ["help", "color"],
-	string: ["version"],
 	default: { color: true },
 	negatable: ["color"],
+	string: ["version"],
 });
 
 console.log("Wants help?", flags.help);

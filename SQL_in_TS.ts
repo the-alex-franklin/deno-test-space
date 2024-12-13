@@ -8,25 +8,26 @@ const willThrowDuplicateError = (methodName: string) => () => {
 const generateGroupByRecursively = (
 	_groupBy: ((arg: any) => any)[],
 	_havingGroups: ((arg: any) => boolean)[][],
-) => function groupByRecursively(
-	items: any[],
-	index: number = 0,
-): any[] {
-	if (index >= _groupBy.length) return items;
+) =>
+	function groupByRecursively(
+		items: any[],
+		index: number = 0,
+	): any[] {
+		if (index >= _groupBy.length) return items;
 
-	const groupMap: Map<any, any[]> = new Map();
-	items.forEach((item) => {
-		const key = _groupBy[index]?.(item);
-		if (!groupMap.has(key)) groupMap.set(key, []);
-		groupMap.get(key)!.push(item);
-	});
+		const groupMap: Map<any, any[]> = new Map();
+		items.forEach((item) => {
+			const key = _groupBy[index]?.(item);
+			if (!groupMap.has(key)) groupMap.set(key, []);
+			groupMap.get(key)!.push(item);
+		});
 
-	const grouped = [...groupMap.entries()]
-		.map(([key, value]) => [key, groupByRecursively(value, index + 1)]);
+		const grouped = [...groupMap.entries()]
+			.map(([key, value]) => [key, groupByRecursively(value, index + 1)]);
 
-	if (!_havingGroups.length) return grouped;
-	return grouped.filter((item) => _havingGroups.every((havingGroup) => havingGroup.some((having) => having(item))));
-};
+		if (!_havingGroups.length) return grouped;
+		return grouped.filter((item) => _havingGroups.every((havingGroup) => havingGroup.some((having) => having(item))));
+	};
 
 function joinCollections(collections: any[][]) {
 	const _collections: any[] = [];
@@ -779,10 +780,7 @@ Deno.test("Duplication exception tests", () => {
 		try {
 			fn();
 		} catch (e) {
-			assertEquals(
-				e instanceof Error,
-				true,
-			);
+			if (!(e instanceof Error)) throw e;
 
 			assertEquals(
 				e.message,

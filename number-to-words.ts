@@ -36,7 +36,10 @@ export function numberToWords(num: number | string | bigint): string {
 	}
 
 	if (is_negative) result = "Negative " + result;
-	return result.trim().replace(/,(?!.*(\band\b|,).*$)/, " and");
+	return result
+		.trim()
+		.replace(/,(?!.*(\band\b|,).*$)/, " and")
+		.replace(/ and$/, "");
 }
 
 const exceptions: { [key: string]: string } = {
@@ -66,6 +69,6 @@ export function numberToOrdinalWords(num: number | string | bigint): string {
 }
 
 const start = performance.now();
-console.log(numberToOrdinalWords(20));
+console.log(numberToOrdinalWords(200000000200000000200000000200000000200000028n));
 const end = performance.now();
 console.log(`Time: ${end - start}ms`);
