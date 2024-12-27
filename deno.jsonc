@@ -1,0 +1,39 @@
+{
+	"tasks": {
+		"dev": "deno run --watch main.ts"
+	},
+	"imports": {
+		"fp-try": "jsr:@2or3godzillas/fp-try@^1.2.0",
+		"fp-ts/": "https://deno.land/x/fp_ts@v2.11.4/",
+		"bcryptjs": "npm:bcryptjs",
+		"axios": "npm:axios",
+		"zod": "npm:zod",
+		"react": "https://esm.sh/react@18.2.0",
+		"react-dom": "https://esm.sh/react-dom@18.2.0",
+		"react/jsx-runtime": "https://esm.sh/react@18.2.0/jsx-runtime"
+	},
+	"compilerOptions": {
+		"strict": true,
+		"strictNullChecks": true,
+		"noUncheckedIndexedAccess": true,
+		"jsx": "react-jsx",
+		"jsxImportSource": "react",
+		"jsxFactory": "React.createElement",
+		"jsxFragmentFactory": "React.Fragment",
+		"lib": ["dom", "dom.iterable", "esnext", "deno.ns"],
+		"types": ["react", "react-dom"]
+	},
+	"fmt": {
+		"semiColons": true,
+		"lineWidth": 120,
+		"useTabs": true
+	},
+	"lint": {
+		"rules": {
+			"exclude": [
+				"no-unused-vars",
+				"no-explicit-any"
+			]
+		}
+	}
+}
