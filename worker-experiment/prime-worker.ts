@@ -1,5 +1,3 @@
-/// <reference lib="webworker" />
-
 import { WorkerDispatcher } from "./index.ts";
 
 self.onmessage = () => {

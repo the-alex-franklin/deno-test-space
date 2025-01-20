@@ -1,8 +1,9 @@
 import { getFulfilledPromises } from "./getFulfilledPromises.ts";
+import type { MaybePromise } from "../types/MaybePromise.ts";
 
 export async function asyncFind<T>(
 	array: T[],
-	predicate: (arg: T) => Promise<unknown>,
+	predicate: (arg: T) => MaybePromise<unknown>,
 ): Promise<T | undefined> {
 	const results = await getFulfilledPromises(
 		array.map(async (item) => ({

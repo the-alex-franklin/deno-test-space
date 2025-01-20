@@ -1,8 +1,9 @@
 import { getFulfilledPromises } from "./getFulfilledPromises.ts";
+import type { MaybePromise } from "../types/MaybePromise.ts";
 
 export async function asyncFilter<T>(
 	array: T[],
-	predicate: (arg: T) => Promise<unknown>,
+	predicate: (arg: T) => MaybePromise<unknown>,
 ): Promise<T[]> {
 	const results = await getFulfilledPromises(
 		array.map(async (item) => ({
@@ -22,8 +23,7 @@ if (import.meta.main) {
 
 	const thing = [0, 1, false, true, "", "hello", NaN, Infinity];
 
-	const filtered_things = await asyncFilter(thing, async (item) => {
-		await delay(1000);
+	const filtered_things = await asyncFilter(thing, (item) => {
 		return item;
 	});
 

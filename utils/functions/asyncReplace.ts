@@ -1,15 +1,15 @@
 import { asyncReplaceAll } from "./asyncReplaceAll.ts";
+import type { MaybePromise } from "../types/MaybePromise.ts";
 
-// deno-fmt-ignore-file
 export async function asyncReplace(
-  target: string,
-  predicate: string | RegExp,
-  replacer: (match: string, ...groups: string[]) => Promise<string> | string,
+	target: string,
+	predicate: string | RegExp,
+	replacer: (match: string, ...groups: string[]) => MaybePromise<string>,
 ): Promise<string> {
 	if (predicate instanceof RegExp && predicate.global) return asyncReplaceAll(target, predicate, replacer);
 	if (typeof predicate === "string") predicate = new RegExp(predicate);
 
-  const match = target.match(predicate);
+	const match = target.match(predicate);
 	if (match?.index == null) return target;
 
 	const replacement = await replacer(match[0], ...match.slice(1));

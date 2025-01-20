@@ -10,9 +10,9 @@ if (import.meta.main) {
 
 	const [a = 1, b = 2, c = 3, d = 4] = await getPromiseResults([
 		delay(1000).then(() => "one" as const),
-		delay(1000).then(() => { throw 2; }),
-		Promise.resolve(3 as const),
-		Promise.reject("four"),
+		delay(1000).then(() => { throw NaN; }),
+		Promise.resolve("three" as const),
+		Promise.reject(Infinity),
 	]);
 
 	console.log([a, b, c, d]);

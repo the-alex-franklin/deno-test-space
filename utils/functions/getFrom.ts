@@ -14,7 +14,7 @@ export function getFrom<T extends Record<PropertyKey, unknown>>(
 
 if (import.meta.main) {
 	const obj = { a: 1, b: 2 };
-	const str = "c";
+	const str: string = "c";
 
 	const a = obj["a"];
 	const b = obj["b"];

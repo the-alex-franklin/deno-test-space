@@ -69,6 +69,6 @@ export function numberToOrdinalWords(num: number | string | bigint): string {
 }
 
 const start = performance.now();
-console.log(numberToOrdinalWords(200000000200000000200000000200000000200000028n));
+console.log(numberToOrdinalWords(12345678901234567890123456789012345678901234567890n));
 const end = performance.now();
 console.log(`Time: ${end - start}ms`);

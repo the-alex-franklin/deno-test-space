@@ -1,8 +1,10 @@
+import { MaybePromise } from "../types/MaybePromise.ts";
+
 // deno-fmt-ignore-file
 export async function asyncReplaceAll(
 	target: string,
 	predicate: string | RegExp,
-	replacer: (match: string, ...groups: string[]) => Promise<string> | string,
+	replacer: (match: string, ...groups: string[]) => MaybePromise<string>,
 ): Promise<string> {
   if (predicate instanceof RegExp && !predicate.global) {
     const error = new Error("Predicate must have the global flag");

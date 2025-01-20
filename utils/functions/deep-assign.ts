@@ -1,47 +1,46 @@
-export function deepAssign(target: any, ...sources: any[]): any {
-  if (!sources.length) return target;
-  const source = sources.shift();
+export function deepMerge(
+	target: Record<PropertyKey, any>,
+	...sources: Record<PropertyKey, any>[]
+): Record<PropertyKey, any> {
+	return sources.reduce((target, source) => {
+		Object.keys(source).forEach((key) => {
+			const sourceValue = source[key];
+			const targetValue = target[key];
 
-  if (isObject(target) && isObject(source)) {
-    for (const key in source) {
-      if (isObject(source[key])) {
-        if (!target[key]) Object.assign(target, { [key]: {} });
-        deepAssign(target[key], source[key]);
-      } else {
-        Object.assign(target, { [key]: source[key] });
-      }
-    }
-  }
+			target[key] = (() => {
+				if (isObject(targetValue) && isObject(sourceValue)) return deepMerge(targetValue, sourceValue);
+				if (key in target) return [targetValue, sourceValue];
+				return sourceValue;
+			})();
+		});
 
-  return deepAssign(target, ...sources);
+		return target;
+	}, target);
 }
 
-function isObject(item: unknown): item is Record<string, any> {
-  return (!!item && typeof item === "object" && !Array.isArray(item));
+function isObject(value: unknown): value is Record<PropertyKey, any> {
+	return value !== null && typeof value === "object";
 }
 
 // Example usage
 if (import.meta.main) {
-  const obj1 = {
-    a: 1,
-    b: {
-      c: 2,
-      d: {
-        e: 3,
-      },
-    },
-  };
+	console.log(
+		deepMerge({ a: { b: 1 } }, { a: { c: 2 } }),
+	);
 
-  const obj2 = {
-    b: {
-      d: {
-        f: 4,
-      },
-      g: 5,
-    },
-    h: 6,
-  };
+	console.log(
+		deepMerge([1, { a: 2 }], [[3], { b: 4 }]),
+	);
 
-  const result = deepAssign({}, obj1, obj2);
-  console.log(JSON.stringify(result, null, 2));
+	console.log(
+		deepMerge({ arr: [1, { a: 2 }] }, { arr: [3, { b: 4 }] }),
+	);
+
+	console.log(
+		deepMerge({ a: 1 }, { b: 2 }, { c: 3 }),
+	);
+
+	console.log(
+		deepMerge([1], [2]), // this incorrectly makes [ [1, 2] ]
+	);
 }
