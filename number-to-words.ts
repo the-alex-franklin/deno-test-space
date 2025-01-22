@@ -55,8 +55,8 @@ const exceptions: { [key: string]: string } = {
 export function numberToOrdinalWords(num: number | string | bigint): string {
 	const words = numberToWords(num);
 
-	const condition = words.match(/(-| )/);
-	const [, prefix_words, splitter, last_word] = words.match(condition ? /(.*)(-| )(.*?)$/ : /()()(.*)$/) ?? [];
+	const has_splitter = words.match(/(-| )/);
+	const [, prefix_words, splitter, last_word] = words.match(has_splitter ? /(.*)(-| )(.*?)$/ : /()()(.*)$/) ?? [];
 
 	/* deno-fmt-ignore */
 	const ordinal_last_word =
