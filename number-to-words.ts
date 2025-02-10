@@ -1,5 +1,4 @@
 // deno-fmt-ignore-file
-import { throwError } from "./utils/functions/throwError.ts";
 
 const twenty_and_under = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen", "Twenty"];
 const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
@@ -7,7 +6,7 @@ const suffix = ["", "Thousand", "Million", "Billion", "Trillion", "Quadrillion",
 
 function processChunk(chunk: number): string {
 	if (chunk === 0) return "";
-	if (chunk <= 20) return twenty_and_under[chunk] ?? throwError("Invalid chunk");
+	if (chunk <= 20) return twenty_and_under[chunk]!;
 	if (chunk < 100) return tens[Math.floor(chunk / 10)] + (chunk % 10 ? "-" + twenty_and_under[chunk % 10] : "");
 	return twenty_and_under[Math.floor(chunk / 100)] + " Hundred" + (chunk % 100 ? " and " + processChunk(chunk % 100) : "");
 }
@@ -69,6 +68,6 @@ export function numberToOrdinalWords(num: number | string | bigint): string {
 }
 
 const start = performance.now();
-console.log(numberToOrdinalWords(12345678901234567890123456789012345678901234567890n));
+console.log(numberToOrdinalWords(123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890n));
 const end = performance.now();
 console.log(`Time: ${end - start}ms`);

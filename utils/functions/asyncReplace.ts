@@ -24,7 +24,6 @@ if (import.meta.main) {
 
 	const replaced = await asyncReplace(str, /{{(.*?)}}/, async (match, group) => {
 		await delay(1000);
-
 		return "dumb";
 	});
 

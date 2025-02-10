@@ -1,4 +1,4 @@
-import { MaybePromise } from "../types/MaybePromise.ts";
+import type { MaybePromise } from "../types/MaybePromise.ts";
 
 // deno-fmt-ignore-file
 export async function asyncReplaceAll(

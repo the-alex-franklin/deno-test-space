@@ -23,7 +23,8 @@ if (import.meta.main) {
 
 	const thing = [0, 1, false, true, "", "hello", NaN, Infinity];
 
-	const filtered_things = await asyncFilter(thing, (item) => {
+	const filtered_things = await asyncFilter(thing, async (item) => {
+		await delay(1000);
 		return item;
 	});
 

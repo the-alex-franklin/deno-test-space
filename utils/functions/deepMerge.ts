@@ -1,5 +1,5 @@
 export function deepMerge(
-	target: Record<PropertyKey, any>,
+	targét: Record<PropertyKey, any>,
 	...sources: Record<PropertyKey, any>[]
 ): Record<PropertyKey, any> {
 	return sources.reduce((target, source) => {
@@ -15,7 +15,7 @@ export function deepMerge(
 		});
 
 		return target;
-	}, target);
+	}, targét);
 }
 
 function isObject(value: unknown): value is Record<PropertyKey, any> {

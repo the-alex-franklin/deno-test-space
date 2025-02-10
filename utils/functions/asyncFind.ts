@@ -27,10 +27,12 @@ if (import.meta.main) {
 		5: "five",
 	};
 
-	const three = await asyncFind(Object.entries(thing), async ([key]) => {
+	const three = await asyncFind(Object.entries(thing), async ([key, value]) => {
 		await delay(1000);
-		return key === "3";
+		return value === "three";
 	});
 
-	console.log(three);
+	if (three) {
+		console.log(Object.fromEntries([three]));
+	}
 }

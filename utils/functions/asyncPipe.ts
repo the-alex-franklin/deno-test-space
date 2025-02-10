@@ -21,7 +21,7 @@ if (import.meta.main) {
   console.log(
     await asyncPipe(
       2,
-      (x) => x * 4,
+      (x) => (x * 4).toString(),
       async (x) => {
         await delay(1000);
         return x + 3;
