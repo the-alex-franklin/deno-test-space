@@ -31,13 +31,15 @@ export function Try<T>(fn: () => T): Failure | Success<T> | Promise<Failure | Su
 if (import.meta.main) {
 	const { delay } = await import("./delay.ts");
 
-	const [r1, r2] = await Promise.all([
+	const [r1, r2, r3] = await Promise.all([
 		Try(async () => {
 			await delay(1000);
 			return 5;
 		}),
-		Try(async () => {
-			await delay(1000);
+		Try(() => {
+			return 5;
+		}),
+		Try(() => {
 			throw 5;
 		}),
 	]);
@@ -60,7 +62,7 @@ if (import.meta.main) {
 	const end_try = performance.now();
 
 	const duration = end_try - start_try;
-	console.log(`Duration: ${duration} ms`);
+	console.log(`Duration: ${duration}ms`);
 	// =================================================
 	const start_async_try = performance.now();
 
@@ -71,5 +73,5 @@ if (import.meta.main) {
 	const end_async_try = performance.now();
 
 	const async_duration = end_async_try - start_async_try;
-	console.log(`Async Duration: ${async_duration} ms`);
+	console.log(`Async Duration: ${async_duration}ms`);
 }

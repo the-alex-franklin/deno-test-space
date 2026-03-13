@@ -37,18 +37,18 @@ if (import.meta.main) {
 	);
 
 	console.log(
-		deepMerge({ a: 1 }, { b: 2 }, { c: 3 }),
+		deepMerge({ a: 1 }, { b: 2 }, { b: 3 }),
 	);
 
 	console.log(
-		deepMerge([1], { b: "b" }), // this incorrectly makes [ [1, 2] ]
+		deepMerge([1], { b: "b" }),
 	);
 
 	console.log(
-		Char(deepMerge([1], [2])), // this incorrectly makes [ [1, 2] ]
+		Object.fromEntries(
+			Object.entries(
+				deepMerge([1], [2]),
+			),
+		),
 	);
-}
-
-function Char(obj: Record<PropertyKey, any>) {
-	return Object.fromEntries(Object.entries(obj));
 }

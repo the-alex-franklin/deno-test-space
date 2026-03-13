@@ -1,19 +1,22 @@
-// deno-fmt-ignore-file
-import { Failure, Success } from "./try.ts";
-
 export async function getPromiseResults<T extends Promise<unknown>[]>(promises: [...T]) {
 	return (await Promise.allSettled(promises)).map((promise) => {
-		if (promise.status === "fulfilled") return Success(promise.value);
-		return Failure(promise.reason);
-	}) as { [K in keyof T]: Success<Awaited<T[K]>> | Failure };
+		if (promise.status === "fulfilled") return promise.value;
+	}) as { [K in keyof T]: Awaited<T[K]> | undefined };
 }
 
 if (import.meta.main) {
 	const { delay } = await import("./delay.ts");
 
-	const [a, b, c, d] = await getPromiseResults([
+	const [
+		a = 1,
+		b = 2,
+		c = 3,
+		d = 4,
+	] = await getPromiseResults([
 		delay(1000).then(() => "one" as const),
-		delay(1000).then(() => { throw NaN; }),
+		delay(1000).then(() => {
+			throw NaN;
+		}),
 		Promise.resolve("three" as const),
 		Promise.reject(Infinity),
 	]);

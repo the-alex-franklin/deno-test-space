@@ -22,10 +22,16 @@ if (import.meta.main) {
 
 	const str = "The {{quick}} {{brown}} fox jumps over the lazy dog";
 
+	const start = performance.now();
+
 	const replaced = await asyncReplace(str, /{{(.*?)}}/, async (match, group) => {
 		await delay(1000);
 		return "dumb";
 	});
+
+	const end = performance.now();
+
+	console.log(end - start + "ms");
 
 	console.log(replaced);
 }

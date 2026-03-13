@@ -6,6 +6,7 @@ Deno.addSignalListener("SIGINT", () => {
 	console.log(`\nTotal time: ${(end - start).toFixed(6)}ms`);
 	console.log(`Total requests: ${count}`);
 	console.log(`requests per second: ${(count / ((end - start) / 1000)).toFixed(6)}`);
+	console.log(`average request time: ${((end - start) / count).toFixed(6)}ms`);
 	Deno.exit();
 });
 

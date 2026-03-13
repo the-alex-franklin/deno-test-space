@@ -1,4 +1,4 @@
-const input = Array.from({ length: 200000 }, (_, i) => i);
+const input = Array.from({ length: 200000 }, (_, i) => i + 1);
 
 const arr_start = performance.now();
 
@@ -16,14 +16,13 @@ console.log(`arr solution: ${(arr_end - arr_start) / 1000}s`);
 const obj_start = performance.now();
 
 const obj: { [key: number]: true } = {};
-for (let i = 0; i < input.length; i++) {
-	obj[i] = true;
+for (const num of input) {
+	obj[num] = true;
 }
 
 const obj_answer = (() => {
-	for (let i = 1; true; i++) {
-		if (!obj[i]) return i;
-	}
+	let i = 0;
+	while (true) if (!obj[++i]) return i;
 })();
 
 const obj_end = performance.now();
