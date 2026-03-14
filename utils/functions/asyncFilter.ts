@@ -25,7 +25,7 @@ if (import.meta.main) {
 
 	const filtered_things = await asyncFilter(thing, async (item) => {
 		await delay(1000);
-		return item;
+		return !!item;
 	});
 
 	console.log(filtered_things);

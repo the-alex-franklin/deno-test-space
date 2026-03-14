@@ -45,7 +45,8 @@ if (import.meta.main) {
 	]);
 
 	if (r1?.success) console.log("#1 This should log");
-	if (r2?.failure) console.log("#2 This should log");
+	if (r2?.failure) console.log("#2 This shouldn't log");
+	if (r3?.failure) console.log("#3 This should log");
 
 	// =================================================
 

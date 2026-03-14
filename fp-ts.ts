@@ -1,7 +1,7 @@
 import Fraction from "npm:fraction.js";
-import { flow } from "fp-ts/function.ts";
-import { left, match as matchEither, right } from "fp-ts/Either.ts";
-import { match as matchOption, none, some } from "fp-ts/Option.ts";
+import { flow } from "fp-ts/function";
+import { left, match as matchEither, right } from "fp-ts/Either";
+import { match as matchOption, none, some } from "fp-ts/Option";
 import { Try } from "./utils/functions/try.ts";
 
 const { log, error } = console;

@@ -4,6 +4,7 @@
 	},
 	"imports": {
 		"fp-try": "jsr:@2or3godzillas/fp-try@^1.2.0",
+		"fp-ts": "npm:fp-ts",
 		"axios": "npm:axios",
 		"zod": "npm:zod"
 	},
