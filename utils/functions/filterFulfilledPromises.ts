@@ -2,7 +2,7 @@ export async function filterFulfilledPromises<T extends Promise<unknown>[]>(prom
 	return (await Promise.allSettled(promises)).reduce<unknown[]>((acc, r) => {
 		if (r.status === "fulfilled") acc.push(r.value);
 		return acc;
-	}, []) as { [K in keyof T]: Awaited<T[K]> };
+	}, []) as Awaited<T[number]>[];
 }
 
 if (import.meta.main) {
