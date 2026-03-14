@@ -1,4 +1,4 @@
-export async function getPromiseResults<T extends Promise<unknown>[]>(promises: [...T]) {
+export async function settlePromisesOrUndefined<T extends Promise<unknown>[]>(promises: [...T]) {
 	return (await Promise.allSettled(promises)).map((promise) => {
 		if (promise.status === "fulfilled") return promise.value;
 	}) as { [K in keyof T]: Awaited<T[K]> | undefined };
@@ -12,7 +12,7 @@ if (import.meta.main) {
 		b = 2,
 		c = 3,
 		d = 4,
-	] = await getPromiseResults([
+	] = await settlePromisesOrUndefined([
 		delay(1000).then(() => "one" as const),
 		delay(1000).then(() => {
 			throw NaN;

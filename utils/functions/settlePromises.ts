@@ -1,7 +1,7 @@
 // deno-fmt-ignore-file
 import { Failure, Success } from "./try.ts";
 
-export async function getPromiseResults<T extends Promise<unknown>[]>(promises: [...T]) {
+export async function settlePromises<T extends Promise<unknown>[]>(promises: [...T]) {
 	return (await Promise.allSettled(promises)).map((promise) => {
 		if (promise.status === "fulfilled") return Success(promise.value);
 		return Failure(promise.reason);
@@ -11,7 +11,7 @@ export async function getPromiseResults<T extends Promise<unknown>[]>(promises: 
 if (import.meta.main) {
 	const { delay } = await import("./delay.ts");
 
-	const [a, b, c, d] = await getPromiseResults([
+	const [a, b, c, d] = await settlePromises([
 		delay(1000).then(() => "one" as const),
 		delay(1000).then(() => { throw NaN; }),
 		Promise.resolve("three" as const),
