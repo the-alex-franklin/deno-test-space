@@ -29,7 +29,9 @@
 		"rules": {
 			"exclude": [
 				"no-unused-vars",
-				"no-explicit-any"
+				"no-explicit-any",
+				"no-import-prefix",
+				"no-unversioned-import"
 			]
 		}
 	}

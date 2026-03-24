@@ -7,11 +7,12 @@ export function Success<T>(data: T): Success<T> {
 }
 
 export function Failure(error: unknown): Failure {
+	if (error instanceof Error) return { success: false, failure: true, error };
+
 	return {
 		success: false,
 		failure: true,
-		error: error instanceof Error ? error :
-			new Error(typeof error === "string" ? error : JSON.stringify(error)),
+		error: new Error(typeof error === "string" ? error : JSON.stringify(error)),
 	};
 }
 
@@ -29,50 +30,22 @@ export function Try<T>(fn: () => T): Failure | Success<T> | Promise<Failure | Su
 
 // Example usage:
 if (import.meta.main) {
-	const { delay } = await import("./delay.ts");
+	const { z } = await import("zod");
+	const { default: axios } = await import("axios");
 
-	const [r1, r2, r3] = await Promise.all([
-		Try(async () => {
-			await delay(1000);
-			return 5;
-		}),
-		Try(() => {
-			return 5;
-		}),
-		Try(() => {
-			throw 5;
-		}),
-	]);
+	const post_schema = z.object({
+		userId: z.number(),
+		id: z.number(),
+		title: z.string(),
+		body: z.string(),
+	});
 
-	if (r1?.success) console.log("#1 This should log");
-	if (r2?.failure) console.log("#2 This shouldn't log");
-	if (r3?.failure) console.log("#3 This should log");
+	const result = await Try(() =>
+		axios.get("https://jsonplaceholder.typicode.com/posts/1")
+			.then((res) => res.data)
+			.then(post_schema.parse)
+	);
 
-	// =================================================
-
-	const { nextTick } = await import("node:process");
-	const { range } = await import("./range.ts");
-
-	const iterations = 100000;
-	const start_try = performance.now();
-
-	for (const i of range(iterations)) {
-		Try(() => nextTick(() => {}));
-	}
-
-	const end_try = performance.now();
-
-	const duration = end_try - start_try;
-	console.log(`Duration: ${duration / iterations}ms`);
-	// =================================================
-	const start_async_try = performance.now();
-
-	for (const i of range(iterations)) {
-		await Try(() => new Promise<void>((resolve) => nextTick(resolve)));
-	}
-
-	const end_async_try = performance.now();
-
-	const async_duration = end_async_try - start_async_try;
-	console.log(`Async Duration: ${async_duration / iterations}ms`);
+	if (result.success) console.log(result.data);
+	else console.log(result.error);
 }

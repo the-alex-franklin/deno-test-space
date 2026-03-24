@@ -7,4 +7,4 @@ export type { Nullish } from "./Nullish.ts";
 export type { Primitive } from "./Primitive.ts";
 export type { UnionToIntersection } from "./UnionToIntersection.ts";
 export type { ValueOf } from "./ValueOf.ts";
-export type { WidenLiteral } from "./WidenLiteral.ts";
+export type { Widen } from "./Widen.ts";

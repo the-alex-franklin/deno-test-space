@@ -1,8 +1,12 @@
-function useValue<T>(value: T, defaultValue: NoInfer<T>): T {
-  return value !== undefined ? value : defaultValue;
+import { Widen } from "./index.ts";
+
+function useValue<T>(value: Widen<T>, defaultValue: NoInfer<Widen<T>>): Widen<T> {
+	return value !== undefined ? value : defaultValue;
 }
 
 // Example usage:
-const result1 = useValue<string>("Hello", "Default"); // ✅ Works fine
-const result2 = useValue<number>(42, 0); // ✅ Works fine
-// const result3 = useValue<number>(42, "Not a number"); // ❌ Type error, as expected
+if (import.meta.main) {
+	const result1 = useValue("Hello", "Default"); // ✅ Works fine
+	const result2 = useValue(42, 0); // ✅ Works fine
+	// const result3 = useValue(42, "Not a number"); // ❌ Type error, as designed
+}
