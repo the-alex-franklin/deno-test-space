@@ -1,4 +1,6 @@
-export async function getFulfilledPromises<T extends Promise<unknown>[]>(promises: [...T]) {
+export async function getFulfilledPromises<T extends Promise<unknown>[]>(
+	promises: [...T],
+): Promise<Awaited<T[number]>[]> {
 	return (await Promise.allSettled(promises)).reduce<unknown[]>((acc, r) => {
 		if (r.status === "fulfilled") acc.push(r.value);
 		return acc;

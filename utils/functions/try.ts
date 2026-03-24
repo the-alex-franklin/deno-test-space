@@ -42,7 +42,7 @@ if (import.meta.main) {
 
 	const result = await Try(() =>
 		axios.get("https://jsonplaceholder.typicode.com/posts/1")
-			.then((res) => res.data)
+		.then((res: { data: unknown }) => res.data)
 			.then(post_schema.parse)
 	);
 
