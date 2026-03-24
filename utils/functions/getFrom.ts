@@ -5,11 +5,11 @@ import type { Widen } from "../types/Widen.ts";
 export function getFrom<T extends Record<PropertyKey, unknown>>(
 	obj: T | Nullish,
 	key: Widen<keyof T> | Nullish,
-): T[keyof T] | undefined {
-	if (isNullish(obj)) return;
-	if (isNullish(key)) return;
+): T[keyof T] | Nullish {
+	if (isNullish(obj)) return null;
+	if (isNullish(key)) return null;
 
-	if (key in obj) return obj[key];
+	if (Object.hasOwn(obj, key)) return obj[key];
 }
 
 if (import.meta.main) {

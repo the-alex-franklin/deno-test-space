@@ -16,5 +16,7 @@ Number.prototype.times = function <T>(fn: (i: number) => T): T[] {
 	return arr;
 };
 
-const output = (3).times((i) => i + 1);
-console.log({ output });
+if (import.meta.main) {
+	const output = (3).times((i) => i + 1);
+	console.log({ output });
+}
