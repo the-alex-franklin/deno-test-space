@@ -46,7 +46,7 @@ if (import.meta.main) {
 		await delay(1000);
 
 		if (group.length === 3) return group.toUpperCase().replace(/(\w)/g, "$1.");
-		if (group === "quick") return "dumb";
+		if (group === "quick") return "slow";
 		if (group === "brown") return "blue";
 		if (group === "jumps") return "farts";
 		if (group === "over") return "on";

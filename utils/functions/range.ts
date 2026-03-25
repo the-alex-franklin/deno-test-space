@@ -8,3 +8,8 @@ export function range(start: number, end?: number): number[] {
 		end > start ? (_, i) => start + i : (_, i) => start - i,
 	);
 }
+
+if (import.meta.main) {
+	const arr = range(4, -4);
+	console.log(arr);
+}
