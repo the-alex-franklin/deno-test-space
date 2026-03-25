@@ -35,20 +35,24 @@ export function Try<T>(fn: () => T): Failure | Success<T> | Promise<Failure | Su
 
 // Example usage:
 if (import.meta.main) {
-	const { z } = await import("npm:zod@^3.24.2");
-	const { default: axios } = await import("npm:axios@^1.8.1");
+	type Post = { userId: number; id: number; title: string; body: string };
 
-	const post_schema = z.object({
-		userId: z.number(),
-		id: z.number(),
-		title: z.string(),
-		body: z.string(),
-	});
+	function parsePost(data: unknown): Post {
+		if (typeof data !== "object" || data === null) throw new Error("Invalid post shape");
+
+		const { userId, id, title, body } = data as Record<string, unknown>;
+		if (typeof userId !== "number") throw new Error("Invalid userId");
+		if (typeof id !== "number") throw new Error("Invalid id");
+		if (typeof title !== "string") throw new Error("Invalid title");
+		if (typeof body !== "string") throw new Error("Invalid body");
+
+		return { userId, id, title, body };
+	}
 
 	const result = await Try(() =>
-		axios.get<unknown>("https://jsonplaceholder.typicode.com/posts/1")
-			.then((res) => res.data)
-			.then(post_schema.parse)
+		fetch("https://jsonplaceholder.typicode.com/posts/1")
+			.then((res) => res.json())
+			.then(parsePost)
 	);
 
 	if (result.success) console.log(result.data);
