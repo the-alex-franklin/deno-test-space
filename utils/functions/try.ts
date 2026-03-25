@@ -12,7 +12,12 @@ export function Failure(error: unknown): Failure {
 	return {
 		success: false,
 		failure: true,
-		error: new Error(typeof error === "string" ? error : JSON.stringify(error)),
+		error: new Error(
+			typeof error === "string" ? error :
+			isNaN(error as any) ? "NaN" :
+			!isFinite(error as any) ? "Infinity" :
+			JSON.stringify(error)
+		),
 	};
 }
 
@@ -30,8 +35,8 @@ export function Try<T>(fn: () => T): Failure | Success<T> | Promise<Failure | Su
 
 // Example usage:
 if (import.meta.main) {
-	const { z } = await import("zod");
-	const { default: axios } = await import("axios");
+	const { z } = await import("npm:zod@^3.24.2");
+	const { default: axios } = await import("npm:axios@^1.8.1");
 
 	const post_schema = z.object({
 		userId: z.number(),
