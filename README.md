@@ -43,7 +43,7 @@ it.
 
 ## Utils Library
 
-The `Try` function — along with `tryAll`, `getFulfilledPromises`, ``, `asyncFilter`, `asyncFind`, `asyncPipe`, `range`,
+The `Try` function — along with `tryAll`, `getFulfilledPromises`, `asyncFilter`, `asyncFind`, `asyncPipe`, `range`,
 `deepMerge` and a bunch of other utilities I keep reaching for — is open-source and published as a library on JSR:
 
 **[@2or3godzillas/utils](https://jsr.io/@2or3godzillas/utils@0.1.5)**
