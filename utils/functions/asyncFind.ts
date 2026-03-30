@@ -27,12 +27,18 @@ if (import.meta.main) {
 		5: "five",
 	};
 
+	const start = performance.now();
+
 	const three = await asyncFind(Object.entries(thing), async ([key, value]) => {
 		await delay(1000);
 		return value === "three";
 	});
 
-	if (three) {
-		console.log(Object.fromEntries([three]));
-	}
+	if (!three) throw new Error("three not found");
+
+	const end = performance.now();
+
+	console.log(`Time taken: ${end - start}ms`);
+
+	console.log(Object.fromEntries([three]));
 }

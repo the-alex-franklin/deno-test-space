@@ -1,10 +1,16 @@
-const input = Array.from({ length: 200000 }, (_, i) => i + 1);
+// deno-lint-ignore-file no-unused-labels
+
+const input = Array.from({ length: 4 }, (_, i) => i + 1);
 
 const arr_start = performance.now();
 
 const arr_answer = (() => {
-	for (let i = 1; true; i++) {
-		if (!input.includes(i)) return i;
+	outer: for (let i = 1; true; i++) {
+		// if (!input.includes(i)) return i;
+		inner: for (const j of input) {
+			if (i === j) continue outer;
+		}
+		return i;
 	}
 })();
 

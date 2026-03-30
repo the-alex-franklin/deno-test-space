@@ -52,4 +52,4 @@ import { pipe, range, Try } from "jsr:@2or3godzillas/utils";
 ## License
 
 [MIT](./LICENSE) — © 2026 Alex Andria Franklin. Feel free to use any of this, including `Try`, in your own projects.
-Credit appreciated.
+Credit appreciated but not required.

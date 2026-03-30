@@ -1,4 +1,4 @@
-import Fraction from "npm:fraction.js";
+import { Fraction } from "npm:fraction.js@latest";
 import { flow } from "fp-ts/function";
 import { left, match as matchEither, right } from "fp-ts/Either";
 import { match as matchOption, none, some } from "fp-ts/Option";
