@@ -42,10 +42,10 @@ either. You can get very loosey-goosey with await. TypeScript will yell at you i
 
 ## Utils Library
 
-The `Try` function — along with `pipe`, `flow`, `range`, and a bunch of other utilities I keep reaching for — is
-open-source and published as a library on JSR:
+The `Try` function — along with `tryAll`, `getFulfilledPromises`, ``, `asyncFilter`, `asyncFind`, `asyncPipe`, `range`,
+`deepMerge` and a bunch of other utilities I keep reaching for — is open-source and published as a library on JSR:
 
-**[@2or3godzillas/utils](https://jsr.io/@2or3godzillas/utils@0.1.4)**
+**[@2or3godzillas/utils](https://jsr.io/@2or3godzillas/utils@0.1.5)**
 
 ```ts
 import { pipe, range, Try } from "jsr:@2or3godzillas/utils";
