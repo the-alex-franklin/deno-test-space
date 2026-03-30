@@ -34,9 +34,10 @@ else console.log(result.error); // Error
 No more `let x; try { x = ... } catch {}` gymnastics. No more untyped `catch (e: unknown)`. The success path and the
 failure path are both explicit, type-safe, and handled in the same flow.
 
-Note: it automatically detects whether the argument is a Promise or not, so `await` is only needed if a Promise is being
-passed in as the argument. If it's a synchronous function, no `await` is needed, but it doesn't hurt anything to have it
-either. You can get very loosey-goosey with await. TypeScript will yell at you if you need it.
+Note: it automatically detects whether the function being passed in is a Promise or a regular, synchronous function.
+`await` is only needed if it's a Promise. If it's a synchronous function, no `await` is needed, but it doesn't hurt to
+have it either. You can get very loosey-goosey with `await`. TypeScript will yell at you if you need it but don't have
+it.
 
 ---
 
