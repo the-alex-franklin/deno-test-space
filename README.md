@@ -1,16 +1,16 @@
 # deno-playground / test-space
 
 This is where I play around with new ideas — exploring Deno APIs, FFI experiments, data structures, and whatever else
-catches my interest. Most of it is throwaway code, but some of it turns into something worth keeping.
+catches my interest. Most of it is throwaway code, but some of it turned into something useful.
 
 ---
 
 ## `Try` — my favourite thing in here
 
 One thing I'm particularly proud of is the `Try` function. It's a small wrapper that tackles one of the most annoying
-things about TypeScript: the fact that `throw` can happen anywhere, and throw anything, but there's no way to tell from
-a function's signature whether it throws nor what it throws. You end up either wrapping everything in `try/catch` blocks
-(ugly, disruptive to control flow) or just hoping for the best.
+things about TypeScript: the fact that `throw` can happen anywhere, throw anything, and there's no way to tell from a
+function's signature whether it throws or not, nor what it throws. You end up either wrapping everything in `try/catch`
+blocks (ugly, disruptive to control flow) or just hoping for the best.
 
 `Try` fixes this by wrapping a function call and returning a typed `Success | Failure` result object instead of
 throwing. It works transparently with both sync and async functions — the return type is inferred automatically.
@@ -33,6 +33,10 @@ else console.log(result.error); // Error
 
 No more `let x; try { x = ... } catch {}` gymnastics. No more untyped `catch (e: unknown)`. The success path and the
 failure path are both explicit, type-safe, and handled in the same flow.
+
+Note: it automatically detects whether the argument is a Promise or not, so `await` is only needed if a Promise is being
+passed in as the argument. If it's a synchronous function, no `await` is needed, but it doesn't hurt anything to have it
+either. You can get very loosey-goosey with await. TypeScript will yell at you if you need it.
 
 ---
 

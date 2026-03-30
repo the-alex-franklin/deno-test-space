@@ -1,12 +1,13 @@
 // deno-lint-ignore-file no-unused-labels
+import { range } from "./utils/functions/range.ts";
 
-const input = Array.from({ length: 4 }, (_, i) => i + 1);
+const input = range(200000);
+console.log(input.length);
 
 const arr_start = performance.now();
 
 const arr_answer = (() => {
 	outer: for (let i = 1; true; i++) {
-		// if (!input.includes(i)) return i;
 		inner: for (const j of input) {
 			if (i === j) continue outer;
 		}
