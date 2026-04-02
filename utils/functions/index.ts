@@ -10,7 +10,7 @@ export { getFulfilledPromises } from "./getFulfilledPromises.ts";
 export { flow } from "./flow.ts";
 export { getFrom } from "./getFrom.ts";
 export { isNullish } from "./isNullish.ts";
-export { nonNull } from "./nonNull.ts";
+export { nonNullish } from "./nonNullish.ts";
 export { pipe } from "./pipe.ts";
 export { range } from "./range.ts";
 export { tryAll } from "./tryAll.ts";

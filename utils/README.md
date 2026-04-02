@@ -5,12 +5,58 @@ A personal utility library for Deno. Functions and types I keep reaching for.
 ## Install
 
 ```ts
-import { pipe, range, tryAll } from "jsr:@2or3godzillas/utils";
+import { asyncPipe, Try, tryAll } from "jsr:@2or3godzillas/utils";
 ```
 
 ---
 
 ## Functions
+
+### `Try(fn)`
+
+Wraps a sync or async function in a `Success | Failure` result instead of throwing.
+
+```ts
+const result = await Try(() => fetch("/api/data").then((r) => r.json()));
+if (result.success) console.log(result.data);
+else console.log(result.error);
+```
+
+### `tryAll(promises)`
+
+`Promise.allSettled` mapped to `Success | Failure` per item.
+
+```ts
+const [a, b] = await tryAll([fetchUser(), fetchPosts()]);
+if (a.success) console.log(a.data);
+```
+
+### `allOptional(promises)`
+
+Like `Promise.allSettled`, but returns `undefined` for rejected promises instead of a result object — ideal for
+destructuring with defaults.
+
+```ts
+const [
+	user = defaultUser,
+	posts = [],
+] = await allOptional([
+	fetchUser(),
+	fetchPosts(),
+]);
+```
+
+### `getFulfilledPromises(promises)`
+
+`Promise.allSettled` returning only the fulfilled values, rejections silently dropped.
+
+```ts
+const results = await getFulfilledPromises([
+	Promise.resolve(1),
+	Promise.reject("oops"),
+	Promise.resolve(3),
+]); // [1, 3]
+```
 
 ### `pipe(value, ...fns)`
 
@@ -44,35 +90,16 @@ await asyncPipe(2, (x) => x * 4, async (x) => {
 
 Like `flow`, but each function can be async.
 
-### `Try(fn)`
-
-Wraps a sync or async function in a `Success | Failure` result instead of throwing.
-
 ```ts
-const result = await Try(() => fetch("/api/data").then((r) => r.json()));
-if (result.success) console.log(result.data);
-else console.log(result.error);
-```
-
-### `tryAll(promises)`
-
-`Promise.allSettled` mapped to `Success | Failure` per item.
-
-```ts
-const [a, b] = await tryAll([fetchUser(), fetchPosts()]);
-if (a.success) console.log(a.data);
-```
-
-### `getFulfilledPromises(promises)`
-
-`Promise.allSettled` returning only the fulfilled values, rejections silently dropped.
-
-```ts
-const results = await getFulfilledPromises([
-	Promise.resolve(1),
-	Promise.reject("oops"),
-	Promise.resolve(3),
-]); // [1, 3]
+const transform = asyncFlow(
+	(x: number) => x * 4,
+	async (x) => {
+		await delay(1000);
+		return x + 3;
+	},
+	(x) => x.toString(),
+);
+await transform(2); // "11"
 ```
 
 ### `asyncFilter(array, predicate)`
@@ -90,20 +117,43 @@ const evens = await asyncFilter([1, 2, 3, 4], async (n) => {
 
 Like `Array.find` but the predicate can be async. All predicates run in parallel, returns the first match left to right.
 
+```ts
+const found = await asyncFind(["one", "two", "three"], async (s) => {
+	await delay(100);
+	return s.length === 5;
+}); // "three"
+```
+
 ### `asyncReplace(target, predicate, replacer)`
 
 Like `String.replace` but the replacer can be async.
+
+```ts
+const result = await asyncReplace(
+	"Hello, {{name}}!",
+	/{{(.*?)}}/,
+	async (_match, group) => fetchValue(group),
+); // "Hello, Alice!"
+```
 
 ### `asyncReplaceAll(target, predicate, replacer)`
 
 Like `String.replaceAll` but the replacer can be async. All replacements run in parallel.
 
+```ts
+const result = await asyncReplaceAll(
+	"{{greeting}}, {{name}}!",
+	/{{(.*?)}}/g,
+	async (match, group) => fetchValue(group),
+); // "Hello, Alice!"
+```
+
 ### `deepMerge(target, ...sources)`
 
-Recursively merges objects and arrays. Colliding scalar values are collected into arrays.
+Recursively merges objects and arrays. Colliding values are collected into arrays.
 
 ```ts
-deepMerge({ a: 1 }, { b: 2 }, { b: 3 }); // { a: 1, b: [2, 3] }
+deepMerge({ a: 1 }, { b: 2 }, { b: 3 }, { b: 4 }); // { a: 1, b: [ 2, 3, [ 4 ] ] }
 ```
 
 ### `range(end)` / `range(start, end)`
@@ -112,8 +162,9 @@ Generates an array of numbers. Supports descending ranges.
 
 ```ts
 range(5); // [0, 1, 2, 3, 4]
+range(-3); // [0, -1, -2]
 range(2, 5); // [2, 3, 4]
-range(5, 2); // [5, 4, 3]
+range(2, -2); // [2, 1, 0, -1]
 ```
 
 ### `delay(ms)`
@@ -121,7 +172,7 @@ range(5, 2); // [5, 4, 3]
 Promise-based `setTimeout`.
 
 ```ts
-await delay(1000);
+await delay(1000); // halts execution for 1000ms
 ```
 
 ### `times(n, fn)`
@@ -129,25 +180,56 @@ await delay(1000);
 Calls `fn` `n` times with the index, returns the results.
 
 ```ts
-times(3, (i) => i * 2); // [0, 2, 4]
+times(3, (i) => console.log(i * 2));
+// 0
+// 2
+// 4
 ```
 
 ### `getFrom(obj, key)`
 
-Safe property access — returns `null` instead of erroring when `obj` or `key` is nullish, or returns `undefined` when
-`key` isn't in `obj`.
+Safe property access — returns `undefined` instead of erroring when `obj` or `key` is nullish, or when `key` isn't in
+`obj`.
+
+```ts
+const obj = { a: 1, b: 2 };
+const key: string = "a";
+getFrom(obj, key); // 1
+getFrom(obj, "c"); // undefined
+getFrom(null, "a"); // undefined
+getFrom(obj, null); // undefined
+```
 
 ### `isNullish(value)`
 
 Returns `true` if value is `null` or `undefined`.
 
-### `nonNull(value)`
+```ts
+isNullish(null); // true
+isNullish(undefined); // true
+isNullish(0); // false
+isNullish(""); // false
+```
+
+### `nonNullish(value)`
 
 Type guard — returns `true` if value is not `null` or `undefined`.
+
+```ts
+const values = [1, null, 2, undefined, 3];
+values.filter(nonNullish); // [1, 2, 3]
+```
 
 ### `isNumber(value)`
 
 Returns `true` if `Number(value)` is not `NaN`. Useful for checking numeric strings too.
+
+```ts
+isNumber(42); // true
+isNumber("3.14"); // true
+isNumber("abc"); // false
+isNumber(NaN); // false
+```
 
 ### `throwError(message)`
 
