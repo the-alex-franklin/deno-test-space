@@ -6,18 +6,31 @@ export function Success<T>(data: T): Success<T> {
 	return { success: true, failure: false, data };
 }
 
+function coerceErrorMessage(error: unknown): string {
+    if (typeof error === "string") return error;
+    if (typeof error === "number") {
+        if (isNaN(error)) return "NaN";
+        if (!isFinite(error)) return "Infinity";
+        return String(error);
+    }
+    if (typeof error === "bigint") return String(error);
+    if (typeof error === "symbol") return error.description ?? error.toString();
+    if (error === null) return "null";
+    if (error === undefined) return "undefined";
+    if (typeof error === "object") {
+        try { return JSON.stringify(error); }
+        catch { return Object.prototype.toString.call(error); }
+    }
+    return String(error);
+}
+
 export function Failure(error: unknown): Failure {
 	if (error instanceof Error) return { success: false, failure: true, error };
 
 	return {
 		success: false,
 		failure: true,
-		error: new Error(
-			typeof error === "string" ? error :
-			isNaN(error as any) ? "NaN" :
-			!isFinite(error as any) ? "Infinity" :
-			JSON.stringify(error)
-		),
+		error: new Error(coerceErrorMessage(error)),
 	};
 }
 
