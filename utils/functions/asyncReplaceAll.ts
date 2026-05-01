@@ -48,7 +48,7 @@ if (import.meta.main) {
 		if (group.length === 3) return group.toUpperCase().replace(/(\w)/g, "$1.");
 		if (group === "quick") return "slow";
 		if (group === "brown") return "blue";
-		if (group === "jumps") return "farts";
+		if (group === "jumps") return "lies";
 		if (group === "over") return "on";
 		if (group === "lazy") return "sleepy";
 

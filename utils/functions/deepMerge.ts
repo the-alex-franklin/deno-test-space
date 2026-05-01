@@ -32,6 +32,7 @@ export function deepMerge(
 
 			target[key] = (() => {
 				if (isObject(targetValue) && isObject(sourceValue)) return deepMerge(targetValue, sourceValue);
+
 				if (Object.hasOwn(target, key)) {
 					if (Array.isArray(targetValue) && collisionBuckets.has(targetValue)) {
 						targetValue.push(sourceValue);
@@ -50,30 +51,26 @@ export function deepMerge(
 // Example usage
 if (import.meta.main) {
 	console.log(
-		deepMerge({ a: { b: 1 } }, { a: { c: 2 } }, { a: { d: 3 } }),
+		deepMerge({ a: { b: 1 } }, { a: { c: 2 } }, { a: { d: 3 } }), // { a: { b: 1, c: 2, d: 3 } }
 	);
 
 	console.log(
-		deepMerge([1, { a: "a" }], [2, { b: "b" }], [3, { c: "c" }]),
+		deepMerge([1, { a: "a" }], [2, { b: "b" }], [3, { c: "c" }]), // [ [ 1, 2, 3 ], { a: "a", b: "b", c: "c" } ]
 	);
 
 	console.log(
-		deepMerge({ arr: [1, { a: "a" }] }, { arr: [2, { b: "b" }] }, { arr: [3, { c: "c" }] }),
+		deepMerge({ arr: [1, { a: "a" }] }, { arr: [2, { b: "b" }] }, { arr: [3, { c: "c" }] }), // { arr: [ [ 1, 2, 3 ], { a: "a", b: "b", c: "c" } ] }
 	);
 
 	console.log(
-		deepMerge({ a: 1 }, { b: 2 }, { b: 3 }, { b: 4 }, { c: 5 }),
+		deepMerge({ a: 1 }, { b: 2 }, { b: 3 }, { b: 4 }, { c: 5 }), // { a: 1, b: [ 2, 3, 4 ], c: 5 }
 	);
 
 	console.log(
-		deepMerge([0], { 1: "1" }, { 2: "2" }), // [ 1, b: "b" ]
+		deepMerge([0], { 1: "1" }, { 2: "2" }), // [ 0, "1", "2" ]
 	);
 
 	console.log(
-		Object.fromEntries(
-			Object.entries(
-				deepMerge([1], [2]),
-			),
-		),
+		deepMerge([1], [2]), // { "0": [ 1, 2 ] }
 	);
 }

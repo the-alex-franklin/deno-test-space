@@ -1,5 +1,6 @@
 // deno-fmt-ignore-file
-import { coerceErrorMessage } from "./coerceError.ts";
+import { z } from "zod";
+import { coerceError } from "./coerceError.ts";
 
 export type Success<T> = { success: true; failure: false; data: T; };
 export type Failure = { success: false; failure: true; error: Error };
@@ -15,7 +16,7 @@ export function Failure(error: unknown): Failure {
 		success: false,
 		failure: true,
 		error: new Error(
-			coerceErrorMessage(error),
+			coerceError(error),
 		),
 	};
 }
@@ -34,24 +35,18 @@ export function Try<T>(fn: () => T): Failure | Success<T> | Promise<Failure | Su
 
 // Example usage:
 if (import.meta.main) {
-	type Post = { userId: number; id: number; title: string; body: string };
-
-	function parsePost(data: unknown): Post {
-		if (typeof data !== "object" || data === null) throw new Error("Invalid post shape");
-
-		const { userId, id, title, body } = data as Record<string, unknown>;
-		if (typeof userId !== "number") throw new Error("Invalid userId");
-		if (typeof id !== "number") throw new Error("Invalid id");
-		if (typeof title !== "string") throw new Error("Invalid title");
-		if (typeof body !== "string") throw new Error("Invalid body");
-
-		return { userId, id, title, body };
-	}
+	const postSchema = z.object({
+		userId: z.number(),
+		id: z.number(),
+		title: z.string(),
+		body: z.string(),
+		blah: z.string()
+	})
 
 	const result = await Try(() =>
 		fetch("https://jsonplaceholder.typicode.com/posts/1")
 			.then((res) => res.json())
-			.then(parsePost)
+			.then(postSchema.parse)
 	);
 
 	if (result.success) console.log(result.data);

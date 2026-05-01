@@ -1,4 +1,4 @@
-export function coerceErrorMessage(error: unknown): string {
+export function coerceError(error: unknown): string {
 	if (typeof error === "string") return error;
 	if (typeof error === "number") {
 		if (isNaN(error)) return "NaN";
