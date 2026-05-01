@@ -1,6 +1,6 @@
 {
 	"name": "@2or3godzillas/utils",
-	"version": "0.1.7",
+	"version": "0.1.8",
 	"exports": "./index.ts",
 	"license": "MIT"
 }

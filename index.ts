@@ -1,7 +1,7 @@
-let i = 0;
-console.log("i:", i++);
-console.log("i:", i);
+import { delay } from "./utils/index.ts";
 
-let j = 0;
-console.log("j:", ++j);
-console.log("j:", j);
+console.log(
+	!!(new Promise(() => true)),
+);
+
+await delay(4000);
