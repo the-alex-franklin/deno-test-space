@@ -14,12 +14,13 @@ export function getFrom<T extends Record<PropertyKey, unknown>>(
 
 if (import.meta.main) {
 	const obj = { a: 1, b: 2 };
-	const str: string = "c";
+	const str: string = "b";
 
 	const a = obj["a"]; // 1
-	const b = obj["b"]; // 2
-	const c = getFrom(obj, str); // this returns undefined
-	// const d = obj[str] // this alerts a false error
+	// const a2 = obj[str]; // this alerts a false error
+	const b = getFrom(obj, str);
 	// otherwise, what is needed is something more like:
 	if (str in obj) obj[str as keyof typeof obj];
+	// or, even worse
+	(obj as any)[str];
 }
