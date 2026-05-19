@@ -20,5 +20,8 @@ const halfPi = pi.div(2);
 const result = Decimal.cos(halfPi);
 
 // should be exactly 0, but it's not,
-// because irrational numbers are not representable in finite memory
+// because float mathematics suuuuuuck.
+// Like, I get why float math exists, especially for GPU acceleration
+// But like, floats were implemented in computers when people were working with bytes of RAM
+// Now that our computers trivially have gigabytes, it just annoys me that floats are still the default
 console.log(result.toString());

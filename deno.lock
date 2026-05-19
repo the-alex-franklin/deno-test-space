@@ -28,6 +28,8 @@
     "npm:o@*": "2.3.2",
     "npm:openai@*": "4.47.1",
     "npm:plaid@*": "27.0.0",
+    "npm:preact@*": "10.24.1",
+    "npm:react@*": "19.2.5",
     "npm:supertest@*": "7.0.0",
     "npm:ts-functional-pipe@*": "3.1.2",
     "npm:vitest@*": "1.6.0_@types+node@18.16.19",
@@ -1100,6 +1102,9 @@
         "source-map-js"
       ]
     },
+    "preact@10.24.1": {
+      "integrity": "sha512-PnBAwFI3Yjxxcxw75n6VId/5TFxNW/81zexzWD9jn1+eSrOP84NdsS38H5IkF/UH3frqRPT+MvuCoVHjTDTnDw=="
+    },
     "pretty-format@29.7.0": {
       "integrity": "sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==",
       "dependencies": [
@@ -1141,6 +1146,9 @@
     },
     "react-is@18.2.0": {
       "integrity": "sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w=="
+    },
+    "react@19.2.5": {
+      "integrity": "sha512-llUJLzz1zTUBrskt2pwZgLq59AemifIftw4aB7JxOqf1HY2FDaGDxgwpAPVzHU1kdWabH7FauP4i1oEeer2WCA=="
     },
     "regenerator-runtime@0.14.1": {
       "integrity": "sha512-dYnhHh0nJoMfnkZs6GmmhFknAGRrLznOu5nc9ML+EJxGvrx6H7teuevqVqCuPcPK//3eDrrjQhehXVx9cnkGdw=="
@@ -2824,6 +2832,7 @@
       "npm:axios@*",
       "npm:decimal.js@*",
       "npm:fp-ts@*",
+      "npm:preact@*",
       "npm:zod@*"
     ]
   }
